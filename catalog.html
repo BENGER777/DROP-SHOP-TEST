@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DROP SHOP - Каталог</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Georgia', serif;
+    background-color: #fff;
+    color: #000;
+  }
+
+  header {
+    background-color: #000;
+    padding: 20px;
+    position: relative;
+  }
+
+  header h1 {
+    margin: 0;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 700;
+    color: #fff;
+    font-size: 2em;
+  }
+
+  nav {
+    margin-top: 10px;
+  }
+
+  nav a {
+    color: #fff;
+    margin-right: 20px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  nav a:hover {
+    text-decoration: underline;
+  }
+
+  .header-icons {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 15px;
+  }
+
+  .icon-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2em;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .icon-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 0.8em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cart-count {
+    position: absolute;
+    top: 20px;
+    right: 80px;
+    background: #fff;
+    color: #000;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9em;
+  }
+
+  section {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+
+  .categories {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+  }
+
+  .category-btn {
+    padding: 12px 24px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+    border-radius: 5px;
+  }
+
+  .category-btn:hover {
+    background-color: #333;
+  }
+
+  .category-btn.active {
+    background-color: #b12704;
+  }
+
+  .products {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    justify-content: center;
+  }
+
+  .product-card {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    width: calc(25% - 25px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+
+  .product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    border-color: #000;
+  }
+
+  .product-image-container {
+    position: relative;
+    width: 100%;
+    height: 320px;
+    overflow: hidden;
+  }
+
+  .product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .product-card:hover .product-image {
+    transform: scale(1.05);
+  }
+
+  .product-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: #000;
+    color: white;
+    padding: 5px 10px;
+    font-size: 0.8em;
+    font-weight: 600;
+    z-index: 2;
+    border-radius: 3px;
+  }
+
+  .product-actions-top {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 2;
+  }
+
+  .favorite-btn, .quick-view-btn-top {
+    background: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.2em;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transition: all 0.3s;
+  }
+
+  .favorite-btn:hover, .quick-view-btn-top:hover {
+    transform: scale(1.1);
+  }
+
+  .favorite-btn.active {
+    color: #ff4757;
+    background-color: #ffebee;
+  }
+
+  .quick-view-btn-top:hover {
+    background-color: #000;
+    color: white;
+  }
+
+  .compare-checkbox {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  .product-info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .product-name {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    font-weight: 600;
+    line-height: 1.4;
+    height: 2.8em;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .product-category {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .rating-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .rating-stars {
+    color: #f39c12;
+    font-size: 1em;
+  }
+
+  .rating-count {
+    font-size: 0.9em;
+    color: #666;
+  }
+
+  .product-price {
+    font-weight: bold;
+    color: #b12704;
+    font-size: 1.3em;
+    margin-bottom: 15px;
+  }
+
+  .product-actions-bottom {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+  }
+
+  .action-btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+    border-radius: 5px;
+    font-size: 0.9em;
+  }
+
+  .add-to-cart-btn {
+    background-color: #000;
+    color: #fff;
+  }
+
+  .add-to-cart-btn:hover {
+    background-color: #333;
+  }
+
+  .view-details-btn {
+    background-color: #fff;
+    color: #000;
+    border: 2px solid #000;
+  }
+
+  .view-details-btn:hover {
+    background-color: #000;
+    color: #fff;
+  }
+
+  .compare-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #000;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    display: none;
+    z-index: 1000;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
+  }
+
+  .compare-items {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 5px;
+  }
+
+  .compare-item {
+    background: white;
+    color: black;
+    padding: 8px 15px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9em;
+  }
+
+  .remove-compare {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em;
+    color: #ff4757;
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+  }
+
+  .modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 30px;
+    width: 80%;
+    max-width: 900px;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    border-radius: 10px;
+  }
+
+  .close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #000;
+    background: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+  }
+
+  .close-modal:hover {
+    background-color: #000;
+    color: white;
+  }
+
+  @media(max-width: 1200px) {
+    .product-card {
+      width: calc(33.333% - 25px);
+    }
+  }
+  
+  @media(max-width: 768px) {
+    .product-card {
+      width: calc(50% - 25px);
+    }
+    
+    .header-icons {
+      position: static;
+      margin-top: 10px;
+      justify-content: flex-end;
+    }
+    
+    .cart-count {
+      top: 20px;
+      right: 60px;
+    }
+  }
+  
+  @media(max-width: 480px) {
+    .product-card {
+      width: 100%;
+    }
+    
+    .product-actions-bottom {
+      flex-direction: column;
+    }
+    
+    .product-image-container {
+      height: 280px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>DROP SHOP</h1>
+  <nav>
+    <a href="index.html">Главная</a>
+    <a href="about.html">О нас</a>
+    <a href="catalog.html">Каталог</a>
+    <a href="cart.html">Корзина</a>
+  </nav>
+  <div class="header-icons">
+    <button class="icon-btn" onclick="openWishlist()">
+      ♥
+      <span class="icon-count" id="wishlistCount">0</span>
+    </button>
+    <button class="icon-btn" onclick="openCompare()">
+      ⚖
+      <span class="icon-count" id="compareCount">0</span>
+    </button>
+  </div>
+  <div class="cart-count" id="cartCount">0</div>
+</header>
+
+<section>
+  <h2>Категории</h2>
+  <div class="categories">
+    <button class="category-btn active" onclick="filterCategory('all')">Все товары</button>
+    <button class="category-btn" onclick="filterCategory('мужская')">Мужская</button>
+    <button class="category-btn" onclick="filterCategory('женская')">Женская</button>
+    <button class="category-btn" onclick="filterCategory('аксессуары')">Аксессуары</button>
+  </div>
+</section>
+
+<section>
+  <h2>Наши товары</h2>
+  <div class="products" id="product-list">
+    <!-- Товары будут добавлены через JavaScript -->
+  </div>
+</section>
+
+<div class="compare-panel" id="comparePanel">
+  <div class="compare-items" id="compareItems"></div>
+  <div>
+    <button onclick="clearCompare()" style="margin-right: 10px; background: #666; color: white; border: none; padding: 8px 15px; cursor: pointer;">Очистить</button>
+    <button onclick="compareProducts()" style="background: #fff; color: #000; border: none; padding: 8px 15px; cursor: pointer; font-weight: 600;">Сравнить (<span id="compareNumber">0</span>/3)</button>
+  </div>
+</div>
+
+<div id="quickViewModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal" onclick="closeQuickView()">&times;</span>
+    <div id="quickViewContent"></div>
+  </div>
+</div>
+
+<script>
+  const catalogProducts = [
+    {
+      id: 101,
+      name: "Nike Air Jordan 1",
+      price: 14990,
+      category: "мужская",
+      image: "https://cdn-img.thepoizon.ru/pro-img/cut-img/20251208/01211522f9a04a2598634b90b282dc62.jpg?x-oss-process=image/format,webp/resize,w_800",
+      rating: 4.5,
+      reviews: 12,
+      badge: "Бестселлер",
+      description: "Классические мужские кроссовки из натуральной кожи. Удобные и стильные для повседневной носки."
+    },
+    {
+      id: 102,
+      name: "New Balance 2002",
+      price: 12490,
+      category: "мужская",
+      image: "https://cdn-img.thepoizon.ru/pro-img/cut-img/20251211/02b5fd522d944e47b5ad896328d287bb.jpg?x-oss-process=image/format,webp/resize,w_800",
+      rating: 4.8,
+      reviews: 8,
+      badge: "Новинка",
+      description: "Модель New Balance 2002 отходит от спортивного стиля и делает ставку на комфортный лайфстайл. Верх пары изготовлен из замши, сетчатого текстиля и кожи. Силуэт вдохновлен беговыми кроссовками 2000-х годов. Промежуточная подошва ABZORB и специальная амортизационная вставка на пятке ABZORB SBS создают особый комфорт, смягчая каждый шаг. Подошва Stability Web и N-ergy обеспечивают поддержку свода и отвечают за уверенное сцепление с поверхностью. Настоящая ретро-эстетика, которую можно носить каждый день."
+    },
+    {
+      id: 103,
+      name: "Burberry рубашка",
+      price: 33490,
+      category: "мужская",
+      image: "https://cdn-img.thepoizon.ru/pro-img/cut-img/20250325/c5cb34b6334845039416a24e165f8c8a.jpg?x-oss-process=image/format,webp/resize,w_800",
+      rating: 4.2,
+      reviews: 5,
+      badge: "Премиум",
+      description: "Бежевая рубашка в знаковую клетку Vintage Check органично дополнит повседневный образ и со строгими брюками, и с потертыми джинсами. Модель выполнили из мягкого хлопкового поплина, не уступающего по гладкости шелку. Изделие хорошо пропускает воздух, поддерживая ощущение свежести в течение дня, и приятно ощущается на коже."
+    },
+    {
+      id: 104,
+      name: "Мужской пиджак",
+      price: 35000,
+      category: "мужская",
+      image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=600&h=400&q=80",
+      rating: 4.7,
+      reviews: 15,
+      badge: "Премиум",
+      description: "Классический мужской пиджак из шерсти. Идеально сочетается с брюками и джинсами."
+    },
+    {
+      id: 105,
+      name: "Женские украшения",
+      price: 22000,
+      category: "женская",
+      image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=600&h=400&q=80",
+      rating: 4.9,
+      reviews: 20,
+      badge: "Хит",
+      description: "Комплект украшений из серебра с фианитами. Включает серьги и колье."
+    },
+    {
+      id: 106,
+      name: "Шейный платок",
+      price: 12000,
+      category: "аксессуары",
+      image: "https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=600&h=400&q=80",
+      rating: 4.0,
+      reviews: 3,
+      description: "Шелковый шейный платок с уникальным принтом. Легко комбинируется с различными стилями одежды."
+    }
+  ];
+
+  let currentCategory = 'all';
+  let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+  let compareList = JSON.parse(localStorage.getItem('compare')) || [];
+
+  function displayProducts(products) {
+    const container = document.getElementById('product-list');
+    container.innerHTML = '';
+    
+    products.forEach(p => {
+      const isInWishlist = wishlist.includes(p.id);
+      const isInCompare = compareList.includes(p.id);
+      
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      
+      card.innerHTML = `
+        <div class="product-image-container">
+          <img src="${p.image}" alt="${p.name}" class="product-image">
+          ${p.badge ? `<div class="product-badge">${p.badge}</div>` : ''}
+          <div class="product-actions-top">
+            <button class="quick-view-btn-top" onclick="quickView(${p.id}, event)" title="Быстрый просмотр">
+              👁
+            </button>
+            <button class="favorite-btn ${isInWishlist ? 'active' : ''}" 
+                    onclick="toggleWishlist(${p.id}, this, event)" title="${isInWishlist ? 'Удалить из избранного' : 'В избранное'}">
+              ${isInWishlist ? '♥' : '♡'}
+            </button>
+          </div>
+          <input type="checkbox" class="compare-checkbox" ${isInCompare ? 'checked' : ''} 
+                 onclick="toggleCompare(${p.id}, this.checked, event)" 
+                 title="${isInCompare ? 'Убрать из сравнения' : 'Добавить к сравнению'}">
+        </div>
+        <div class="product-info">
+          <div class="product-category">${p.category}</div>
+          <h3 class="product-name">${p.name}</h3>
+          <div class="rating-container">
+            <span class="rating-stars">
+              ${'★'.repeat(Math.floor(p.rating))}${'☆'.repeat(5-Math.floor(p.rating))}
+            </span>
+            <span class="rating-count">(${p.reviews})</span>
+          </div>
+          <p class="product-price">${p.price.toLocaleString()} ₽</p>
+          <div class="product-actions-bottom">
+            <button class="action-btn view-details-btn" onclick="window.location.href='product.html?id=${p.id}'; event.stopPropagation()">
+              Подробнее
+            </button>
+            <button class="action-btn add-to-cart-btn" onclick="addToCart(${p.id}, event)">
+              В корзину
+            </button>
+          </div>
+        </div>
+      `;
+      
+      card.addEventListener('click', function(e) {
+        if (!e.target.closest('button') && !e.target.closest('input')) {
+          window.location.href = `product.html?id=${p.id}`;
+        }
+      });
+      
+      container.appendChild(card);
+    });
+  }
+
+  function filterCategory(cat) {
+    currentCategory = cat;
+    const buttons = document.querySelectorAll('.category-btn');
+    buttons.forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    if (cat === 'all') {
+      displayProducts(catalogProducts);
+    } else {
+      const filtered = catalogProducts.filter(p => p.category === cat);
+      displayProducts(filtered);
+    }
+  }
+
+  function addToCart(id, e) {
+    if (e) e.stopPropagation();
+    
+    const product = catalogProducts.find(p => p.id === id);
+    if (!product) return;
+    
+    let cart = JSON.parse(localStorage.getItem('cart')) || {};
+    const cartKey = `product_${id}_${Date.now()}`;
+    
+    cart[cartKey] = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      size: "Стандартный",
+      quantity: 1
+    };
+    
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartCount();
+    showNotification(`"${product.name}" добавлен в корзину`);
+  }
+
+  function updateCartCount() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || {};
+    const totalItems = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
+    document.getElementById('cartCount').textContent = totalItems;
+  }
+
+  function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #2ecc71;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 8px;
+      z-index: 1000;
+      animation: slideIn 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    `;
+    notification.innerHTML = `<strong>✓ ${message}</strong>`;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+      notification.style.animation = 'slideOut 0.3s ease';
+      setTimeout(() => notification.remove(), 300);
+    }, 2000);
+  }
+
+  function updateCounters() {
+    document.getElementById('wishlistCount').textContent = wishlist.length;
+    document.getElementById('compareCount').textContent = compareList.length;
+    document.getElementById('compareNumber').textContent = compareList.length;
+    
+    if (compareList.length >= 2) {
+      document.getElementById('comparePanel').style.display = 'flex';
+    } else {
+      document.getElementById('comparePanel').style.display = 'none';
+    }
+    updateComparePanel();
+  }
+
+  function toggleWishlist(id, btn, e) {
+    if (e) e.stopPropagation();
+    const index = wishlist.indexOf(id);
+    if (index === -1) {
+      wishlist.push(id);
+      btn.classList.add('active');
+      btn.innerHTML = '♥';
+      btn.title = 'Удалить из избранного';
+    } else {
+      wishlist.splice(index, 1);
+      btn.classList.remove('active');
+      btn.innerHTML = '♡';
+      btn.title = 'В избранное';
+    }
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+    updateCounters();
+  }
+
+  function openWishlist() {
+    if (wishlist.length === 0) {
+      alert('В избранном пока ничего нет');
+      return;
+    }
+    alert('Перейдите в каталог для просмотра избранного');
+  }
+
+  function toggleCompare(id, checked, e) {
+    if (e) e.stopPropagation();
+    if (checked) {
+      if (compareList.length >= 3) {
+        alert('Можно добавить не более 3 товаров для сравнения');
+        e.target.checked = false;
+        return;
+      }
+      compareList.push(id);
+    } else {
+      const index = compareList.indexOf(id);
+      if (index !== -1) {
+        compareList.splice(index, 1);
+      }
+    }
+    localStorage.setItem('compare', JSON.stringify(compareList));
+    updateCounters();
+  }
+
+  function updateComparePanel() {
+    const compareItems = document.getElementById('compareItems');
+    compareItems.innerHTML = '';
+    compareList.forEach(id => {
+      const product = catalogProducts.find(p => p.id === id);
+      if (product) {
+        const item = document.createElement('div');
+        item.className = 'compare-item';
+        item.innerHTML = `
+          ${product.name}
+          <button class="remove-compare" onclick="removeFromCompare(${id})">×</button>
+        `;
+        compareItems.appendChild(item);
+      }
+    });
+  }
+
+  function removeFromCompare(id) {
+    compareList = compareList.filter(item => item !== id);
+    localStorage.setItem('compare', JSON.stringify(compareList));
+    updateCounters();
+    
+    const checkboxes = document.querySelectorAll('.compare-checkbox');
+    checkboxes.forEach(checkbox => {
+      if (checkbox.onclick && checkbox.onclick.toString().includes(id.toString())) {
+        checkbox.checked = false;
+      }
+    });
+    
+    displayProducts(currentCategory === 'all' ? catalogProducts : 
+                   catalogProducts.filter(p => p.category === currentCategory));
+  }
+
+  function clearCompare() {
+    compareList = [];
+    localStorage.setItem('compare', JSON.stringify(compareList));
+    updateCounters();
+    displayProducts(currentCategory === 'all' ? catalogProducts : 
+                   catalogProducts.filter(p => p.category === currentCategory));
+  }
+
+  function openCompare() {
+    if (compareList.length < 2) {
+      alert('Добавьте минимум 2 товара для сравнения');
+      return;
+    }
+    compareProducts();
+  }
+
+  function compareProducts() {
+    if (compareList.length < 2) {
+      alert('Добавьте минимум 2 товара для сравнения');
+      return;
+    }
+    const ids = compareList.join('_');
+    window.open(`compare.html?ids=${ids}`, '_blank');
+  }
+
+  function quickView(id, e) {
+    if (e) e.stopPropagation();
+    const product = catalogProducts.find(p => p.id === id);
+    if (!product) return;
+    
+    const modal = document.getElementById('quickViewModal');
+    const content = document.getElementById('quickViewContent');
+    
+    content.innerHTML = `
+      <div style="display: flex; gap: 30px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 300px;">
+          <img src="${product.image}" alt="${product.name}" style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 5px;">
+        </div>
+        <div style="flex: 1; min-width: 300px;">
+          <h2 style="margin-top: 0;">${product.name}</h2>
+          <div style="display: flex; align-items: center; gap: 10px; margin: 15px 0;">
+            <span style="color: #f39c12; font-size: 1.2em;">
+              ${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5-Math.floor(product.rating))}
+            </span>
+            <span style="color: #666;">${product.rating} (${product.reviews} отзывов)</span>
+          </div>
+          <div style="background: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;">
+            <p style="font-size: 1.8em; color: #b12704; font-weight: bold; margin: 0;">
+              ${product.price.toLocaleString()} ₽
+            </p>
+          </div>
+          <p style="margin: 20px 0;"><strong>Категория:</strong> ${product.category}</p>
+          <p style="margin: 20px 0;">${product.description}</p>
+          <div style="display: flex; gap: 15px; margin-top: 30px; flex-wrap: wrap;">
+            <button onclick="addToCart(${id}); closeQuickView();" 
+                    style="padding: 12px 25px; background: #000; color: white; border: none; cursor: pointer; font-weight: 600; flex: 1;">
+              Добавить в корзину
+            </button>
+            <button onclick="window.location.href='product.html?id=${id}'" 
+                    style="padding: 12px 25px; background: #fff; color: #000; border: 2px solid #000; cursor: pointer; font-weight: 600; flex: 1;">
+              Подробнее
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    modal.style.display = 'block';
+  }
+
+  function closeQuickView() {
+    document.getElementById('quickViewModal').style.display = 'none';
+  }
+
+  window.onclick = function(event) {
+    const modal = document.getElementById('quickViewModal');
+    if (event.target == modal) {
+      closeQuickView();
+    }
+  };
+
+  document.addEventListener('DOMContentLoaded', function() {
+    displayProducts(catalogProducts);
+    updateCounters();
+    updateCartCount();
+    
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      @keyframes slideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
+  });
+</script>
+</body>
+</html>

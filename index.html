@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DROP SHOP - Главная</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Georgia', serif;
+    background-color: #fff;
+    color: #000;
+  }
+
+  header {
+    background-color: #000;
+    padding: 20px;
+    position: relative;
+  }
+
+  header h1 {
+    margin: 0;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 700;
+    color: #fff;
+    font-size: 2em;
+  }
+
+  nav {
+    margin-top: 10px;
+  }
+
+  nav a {
+    color: #fff;
+    margin-right: 20px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  nav a:hover {
+    text-decoration: underline;
+  }
+
+  .header-icons {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 15px;
+  }
+
+  .icon-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2em;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .icon-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 0.8em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cart-count {
+    position: absolute;
+    top: 20px;
+    right: 80px;
+    background: #fff;
+    color: #000;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9em;
+    z-index: 100;
+  }
+
+  .banner {
+    position: relative;
+    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+  }
+
+  .banner h2 {
+    font-size: 3em;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  }
+
+  section {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+
+  .popular {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    justify-content: center;
+  }
+
+  .product-card {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    width: calc(25% - 25px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+
+  .product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    border-color: #000;
+  }
+
+  .product-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .product-card:hover img {
+    transform: scale(1.05);
+  }
+
+  .product-info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .product-name {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .product-price {
+    font-weight: bold;
+    color: #b12704;
+    font-size: 1.3em;
+    margin-bottom: 15px;
+  }
+
+  .add-to-cart-btn {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+    border-radius: 5px;
+    font-size: 0.9em;
+    margin-top: auto;
+  }
+
+  .add-to-cart-btn:hover {
+    background-color: #333;
+    transform: translateY(-2px);
+  }
+
+  @media(max-width: 1200px) {
+    .product-card {
+      width: calc(33.333% - 25px);
+    }
+  }
+  
+  @media(max-width: 768px) {
+    .product-card {
+      width: calc(50% - 25px);
+    }
+    
+    .banner h2 {
+      font-size: 2em;
+    }
+    
+    .header-icons {
+      position: static;
+      margin-top: 10px;
+      justify-content: flex-end;
+    }
+    
+    .cart-count {
+      top: 20px;
+      right: 60px;
+    }
+  }
+  
+  @media(max-width: 480px) {
+    .product-card {
+      width: 100%;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>DROP SHOP</h1>
+  <nav>
+    <a href="index.html">Главная</a>
+    <a href="about.html">О нас</a>
+    <a href="catalog.html">Каталог</a>
+    <a href="cart.html">Корзина</a>
+  </nav>
+  <div class="header-icons">
+    <button class="icon-btn" onclick="openWishlist()">
+      ♥
+      <span class="icon-count" id="wishlistCount">0</span>
+    </button>
+    <button class="icon-btn" onclick="openCompare()">
+      ⚖
+      <span class="icon-count" id="compareCount">0</span>
+    </button>
+  </div>
+  <div class="cart-count" id="cartCount">0</div>
+</header>
+
+<div class="banner">
+  <h2>Откройте для себя DROP SHOP</h2>
+</div>
+
+<section>
+  <h2>Акции</h2>
+  <p style="font-size: 1.2em; padding: 20px; background: #f5f5f5; border-radius: 8px;">
+    Персональое предложение при покупке трех товаров!.
+  </p>
+</section>
+
+<section>
+  <h2>Популярные товары</h2>
+  <div class="popular" id="popular-products">
+    <!-- Товары будут добавлены через JavaScript -->
+  </div>
+</section>
+
+<script>
+  // Данные популярных товаров
+  const products = [
+    {
+      id: 101,
+      name: "Nike Air Jordan 1",
+      price: 15490,
+      image: "https://cdn-img.thepoizon.ru/pro-img/cut-img/20251208/01211522f9a04a2598634b90b282dc62.jpg?x-oss-process=image/format,webp/resize,w_800"
+    },
+    {
+      id: 102,
+      name: "New Balance 2002",
+      price: 12490,
+      image: "https://cdn-img.thepoizon.ru/pro-img/cut-img/20251211/02b5fd522d944e47b5ad896328d287bb.jpg?x-oss-process=image/format,webp/resize,w_800"
+    },
+    {
+      id: 103,
+      name: "Burberry рубашка",
+      price: 33490,
+      image: "https://cdn-img.thepoizon.ru/pro-img/cut-img/20250325/c5cb34b6334845039416a24e165f8c8a.jpg?x-oss-process=image/format,webp/resize,w_800"
+    },
+    {
+      id: 104,
+      name: "Мужской пиджак",
+      price: 35000,
+      image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=600&h=400&q=80"
+    }
+  ];
+
+  let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+  let compareList = JSON.parse(localStorage.getItem('compare')) || [];
+
+  // Отображение товаров
+  function displayProducts() {
+    const container = document.getElementById('popular-products');
+    container.innerHTML = '';
+    
+    products.forEach(product => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      
+      card.innerHTML = `
+        <img src="${product.image}" alt="${product.name}">
+        <div class="product-info">
+          <h3 class="product-name">${product.name}</h3>
+          <p class="product-price">${product.price.toLocaleString()} руб.</p>
+          <button class="add-to-cart-btn" onclick="addToCart(${product.id})">Добавить в корзину</button>
+        </div>
+      `;
+      
+      card.addEventListener('click', function(e) {
+        if (!e.target.classList.contains('add-to-cart-btn')) {
+          window.location.href = `product.html?id=${product.id}`;
+        }
+      });
+      
+      container.appendChild(card);
+    });
+  }
+
+  // Добавление в корзину
+  function addToCart(id) {
+    const product = products.find(p => p.id === id);
+    if (!product) return;
+    
+    let cart = JSON.parse(localStorage.getItem('cart')) || {};
+    const cartKey = `product_${id}_${Date.now()}`;
+    
+    cart[cartKey] = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      size: "Стандартный",
+      quantity: 1
+    };
+    
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartCount();
+    showNotification(`"${product.name}" добавлен в корзину`);
+  }
+
+  // Обновление счетчиков
+  function updateCounters() {
+    document.getElementById('wishlistCount').textContent = wishlist.length;
+    document.getElementById('compareCount').textContent = compareList.length;
+  }
+
+  // Обновление счетчика корзины
+  function updateCartCount() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || {};
+    const totalItems = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
+    document.getElementById('cartCount').textContent = totalItems;
+  }
+
+  // Показать уведомление
+  function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #2ecc71;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 8px;
+      z-index: 1000;
+      animation: slideIn 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    `;
+    notification.innerHTML = `<strong>✓ ${message}</strong>`;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+      notification.style.animation = 'slideOut 0.3s ease';
+      setTimeout(() => notification.remove(), 300);
+    }, 2000);
+  }
+
+  // Избранное
+  function openWishlist() {
+    if (wishlist.length === 0) {
+      alert('В избранном пока ничего нет');
+      return;
+    }
+    alert('Перейдите в каталог для просмотра избранного');
+  }
+
+  // Сравнение
+  function openCompare() {
+    if (compareList.length < 2) {
+      alert('Добавьте минимум 2 товара для сравнения');
+      return;
+    }
+    const ids = compareList.join('_');
+    window.open(`compare.html?ids=${ids}`, '_blank');
+  }
+
+  // Инициализация
+  document.addEventListener('DOMContentLoaded', function() {
+    displayProducts();
+    updateCounters();
+    updateCartCount();
+    
+    // Добавляем стили для анимаций
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      @keyframes slideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
+  });
+</script>
+</body>
+</html>
